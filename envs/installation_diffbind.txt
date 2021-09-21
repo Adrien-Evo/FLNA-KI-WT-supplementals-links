@@ -1,0 +1,13 @@
+
+
+
+bash Anaconda-latest-Linux-x86_64.sh
+
+
+conda install -c conda-forge mamba
+
+conda create --name diffbind
+conda activate diffbind
+mamba install -c bioconda bioconductor-diffbind 
+conda install -c conda-forge readline=6.2
+
