@@ -3,11 +3,12 @@
 library(DiffBind)
 library(ggplot2)
 #library(dplyr)
-#library(yaml)
+library(yaml)
+library(DESeq2)
 
 
 rootfolder = "/home/af/Desktop/Differential_analyses_peaks/"
-radio = read_yaml(file.path(rootfolder,"radiofile.yml"))
+radio = yaml.load_file(file.path(rootfolder,"radiofile.yml"))
 
 sample=read.csv(file.path(rootfolder,radio$samplesheets),h=T,sep="\t", stringsAsFactor = FALSE)
 
@@ -38,7 +39,7 @@ dev.off()
 ###Overlap
 KI_overlap <- dba.overlap(DBsample,DBsample$masks$KI ,mode=DBA_OLAP_RATE)
 png("Overlap_KI.png", width= 840, height = 840)
-plot(cm_overlap,type='b',ylab='# peaks', xlab='Overlap at least this many peaksets for KI ')
+plot(KI_overlap,type='b',ylab='# peaks', xlab='Overlap at least this many peaksets for KI ')
 dev.off()
 
 
@@ -108,25 +109,26 @@ dev.off()
 
 
 contrast <- dba.contrast(DBcount, categories=DBA_TREATMENT)
+##Contrast all methods : EDGER 
+KIvsWT<- dba.analyze(contrast, method=c(DBA_EDGER))
 
-KIvsWT<- dba.analyze(contrast)
 
-png("MA_plot_KI_WT.png", width= 840, height = 840)
+png("MA_plot_KI_WT_EDGER.png", width= 840, height = 840)
 
 dba.plotMA(KIvsWT)
 dev.off()
 
-png("volcano_plot_KI_WT_pval.png", width= 840, height = 840)
+png("volcano_plot_KI_WT_pval_EDGER.png", width= 840, height = 840)
 dba.plotVolcano(KIvsWT, bUsePval=TRUE, th = 0.01, fold=1)
 dev.off()
 
 
-png("box_plot_KI_WT_FDR.png", width= 840, height = 840)
+png("box_plot_KI_WT_FDR_EDGER.png", width= 840, height = 840)
 dba.plotBox(KIvsWT, bUsePval=FALSE, th = 0.01, fold=1)
 dev.off()
 
 
-KIvsWT.report <- dba.report(KIvsWT, th = 1,bCalled=TRUE)
+KIvsWT.report <- dba.report(KIvsWT, th = 1,bCalled=TRUE,method=DBA_EDGER)
 ##Reordering df
 
 KIvsWT.report <- sort(KIvsWT.report)
@@ -139,8 +141,6 @@ cond2 = "WT"
 FDR = 0.01
 fold = 1
 write_report <- function(report,reportname,cond1,cond2,FDR,fold){
-
-
   df <- data.frame(chr=seqnames(report),
     starts=start(report)-1,
     ends=end(report),
@@ -174,6 +174,36 @@ colnames(df)[9] <- paste0(cond2,"_conc")
 
 }
 
-write_report(KIvsWT.report,"KI_vs_WT","KI","WT",0.01,1)
+write_report(KIvsWT.report,"KI_vs_WT_EDGER","KI","WT",0.1,1)
+
+##Contrast all methods : DBA_DESEQ2 WONT works since it doesnt find any peaks
+
+KIvsWT<- dba.analyze(contrast, method=c(DBA_DESEQ2))
+
+png("MA_plot_KI_WT_DESEQ2.png", width= 840, height = 840)
+
+dba.plotMA(KIvsWT)
+dev.off()
+
+png("volcano_plot_KI_WT_pval_DESEQ2.png", width= 840, height = 840)
+dba.plotVolcano(KIvsWT, bUsePval=TRUE, th = 0.1, fold=1)
+dev.off()
+
+
+png("box_plot_KI_WT_FDR_DESEQ2.png", width= 840, height = 840)
+dba.plotBox(KIvsWT, bUsePval=FALSE, th = 0.01, fold=1)
+dev.off()
+
+
+KIvsWT.report <- dba.report(KIvsWT, th = 1,bCalled=TRUE, method=DBA_DESEQ2)
+##Reordering df
+
+KIvsWT.report <- sort(KIvsWT.report)
+
+write_report(KIvsWT.report,"KI_vs_WT_DESEQ2","KI","WT",0.01,1)
+
+
+
+
 
 

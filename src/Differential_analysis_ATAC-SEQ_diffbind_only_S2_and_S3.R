@@ -53,7 +53,7 @@ dev.off()
 
 # ===>Needs complete overlap
 
-DBsample_simple <- dba.peakset(DBsample, consensus=c(DBA_TREATMENT), minOverlap=1)
+DBsample_simple <- dba.peakset(DBsample, consensus=c(DBA_TREATMENT), minOverlap=2)
 
 
 
@@ -89,7 +89,6 @@ write_report_occupancy(venn$inAll,"common")
 ##################################################################
 DBcount <- dba.count(DBsample)
 
-saveRDS(DBcount, file = file.path(rootfolder,radio$dataDiffBindQC,"dba.count.rds"))
 
 
 png("PCA_TREATMENT.png", width= 840, height = 840)
@@ -117,16 +116,16 @@ KIvsWT<- dba.analyze(contrast, method=c(DBA_EDGER))
 
 png("MA_plot_KI_WT_EDGER.png", width= 840, height = 840)
 
-dba.plotMA(KIvsWT)
+dba.plotMA(KIvsWT, th = 0.1, fold=1)
 dev.off()
 
 png("volcano_plot_KI_WT_pval_EDGER.png", width= 840, height = 840)
-dba.plotVolcano(KIvsWT, bUsePval=TRUE, th = 0.01, fold=1)
+dba.plotVolcano(KIvsWT, bUsePval=TRUE, th = 0.1, fold=1)
 dev.off()
 
 
 png("box_plot_KI_WT_FDR_EDGER.png", width= 840, height = 840)
-dba.plotBox(KIvsWT, bUsePval=FALSE, th = 0.01, fold=1)
+dba.plotBox(KIvsWT, bUsePval=FALSE, th = 0.1, fold=1)
 dev.off()
 
 
@@ -140,7 +139,7 @@ KIvsWT.report <- sort(KIvsWT.report)
 #reportname = "KI_vs_WT"
 #cond1 = "KI"
 #cond2 = "WT"
-#FDR = 0.01
+#FDR = 0.1
 #fold = 1
 write_report <- function(report,reportname,cond1,cond2,FDR,fold){
   df <- data.frame(chr=seqnames(report),
@@ -174,7 +173,7 @@ write.table(df_select[,c(1,2,3,4)],file.path(rootfolder,radio$dataDiffBindQC,pas
 
 }
 
-write_report(KIvsWT.report,"KI_vs_WT_EDGER","KI","WT",0.01,1)
+write_report(KIvsWT.report,"KI_vs_WT_EDGER","KI","WT",0.1,1)
 
 ##Contrast all methods : DBA_DESEQ2 WONT works since it doesnt find any peaks
 
@@ -186,12 +185,12 @@ dba.plotMA(KIvsWT)
 dev.off()
 
 png("volcano_plot_KI_WT_pval_DESEQ2.png", width= 840, height = 840)
-dba.plotVolcano(KIvsWT, bUsePval=TRUE, th = 0.01, fold=1)
+dba.plotVolcano(KIvsWT, bUsePval=TRUE, th = 0.1, fold=1)
 dev.off()
 
 
 png("box_plot_KI_WT_FDR_DESEQ2.png", width= 840, height = 840)
-dba.plotBox(KIvsWT, bUsePval=FALSE, th = 0.01, fold=1)
+dba.plotBox(KIvsWT, bUsePval=FALSE, th = 0.1, fold=1)
 dev.off()
 
 
@@ -200,7 +199,7 @@ KIvsWT.report <- dba.report(KIvsWT, th = 1,bCalled=TRUE, method=DBA_DESEQ2)
 
 KIvsWT.report <- sort(KIvsWT.report)
 
-write_report(KIvsWT.report,"KI_vs_WT_DESEQ2","KI","WT",0.01,1)
+write_report(KIvsWT.report,"KI_vs_WT_DESEQ2","KI","WT",0.1,1)
 
 
 

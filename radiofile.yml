@@ -1,1 +1,30 @@
 samplesheets: "data/sampleSheets_Romain_Ki.csv"
+
+plotDiffBind: "plots/DiffBindPlots"
+
+dataDiffBind: "data/processed/DiffBind"
+
+rootfolder: "/home/af/Desktop/Differential_analyses_peaks/"
+plotDiffBindQC: "plots/DiffBindPlotsQC"
+dataDiffBindQC: "data/processed/DiffBindQC"
+
+topgenes_RNA: "data/processed/RNASEQ/upetdownreggenes-FC1.2et0.8p0.05.txt"
+
+homer: "data/processed/PeakDecoratorEDGEDR_FDR_10percent/HOMER/KI_vs_WT_EDGER_fdr-0.1_fold-1_annotated.txt"
+homer_hugo: "data/processed/PeakDecoratorEDGEDR_FDR_10percent/HOMER/KI_vs_WT_EDGER_fdr-0.1_fold-1_HGNC.txt"
+
+intersect_rna_atac: "data/processed/HOMER_RNA_ATAC_intersect.tsv"
+background: "data/processed/background_annotated.txt"
+
+plot: "plots"
+
+tobias_data: "data/processed/TOBIAS/bindetect_results.txt"
+WT_homer: "data/processed/DiffBindQC/WT_Occupancy_annotated.txt"
+KI_homer: "data/processed/DiffBindQC/KI_Occupancy_annotated.txt"
+
+ratbiomart : "data/external/rat_biomart.rds"
+humanbiomart: "data/external/human_biomart.rds"
+wikipathway: "data/external/wikipathways-20211010-gmt-Homo_sapiens.gmt"
+panther: "data/external/Panther_2016_table_TFBS_TOBIAS.txt"
+wiki_diff: "data/external/WikiPathway_2021_Human_table.txt"
+GO_MF_diff: "data/external/GO_Molecular_Function_2021_table.txt"

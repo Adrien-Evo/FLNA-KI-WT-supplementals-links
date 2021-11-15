@@ -1,7 +1,7 @@
 SampleID	QC	Tissue	Factor	Condition	Treatment	Replicate	bamReads	Peaks	PeakCaller
-KI_1	1	rat			KI	1	/home/af/Desktop/Differential_analyses_peaks/BAMS/Romain_rat-KI_1_S2.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/peaks/macs2_narrow/Romain_rat-KI_1_S2-macs2_peaks.narrowPeak	narrow
-KI_2	1	rat			KI	2	/home/af/Desktop/Differential_analyses_peaks/BAMS/Romain_rat-KI_2_S4.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/peaks/macs2_narrow/Romain_rat-KI_2_S4-macs2_peaks.narrowPeak	narrow
-KI_3	1	rat			KI	3	/home/af/Desktop/Differential_analyses_peaks/BAMS/Romain_rat-KI_3_S6.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/peaks/macs2_narrow/Romain_rat-KI_3_S6-macs2_peaks.narrowPeak	narrow
-WT_1	1	rat			WT	1	/home/af/Desktop/Differential_analyses_peaks/BAMS/Romain_rat-wt_1_S1.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/peaks/macs2_narrow/Romain_rat-wt_1_S1-macs2_peaks.narrowPeak	narrow
-WT_2	1	rat			WT	2	/home/af/Desktop/Differential_analyses_peaks/BAMS/Romain_rat-wt_2_S3.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/peaks/macs2_narrow/Romain_rat-wt_2_S3-macs2_peaks.narrowPeak	narrow
-WT_3	1	rat			WT	3	/home/af/Desktop/Differential_analyses_peaks/BAMS/Romain_rat-wt_3_S5.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/peaks/macs2_narrow/Romain_rat-wt_3_S5-macs2_peaks.narrowPeak	narrow
+KI_1	1	rat			KI	1	/home/af/Desktop/Differential_analyses_peaks/data/raw/BAMS/Romain_rat-KI_1_S2.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/data/raw/peaks/macs2_narrow/Romain_rat-KI_1_S2-macs2_peaks.narrowPeak	narrow
+KI_2	1	rat			KI	2	/home/af/Desktop/Differential_analyses_peaks/data/raw/BAMS/Romain_rat-KI_2_S4.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/data/raw/peaks/macs2_narrow/Romain_rat-KI_2_S4-macs2_peaks.narrowPeak	narrow
+KI_3	1	rat			KI	3	/home/af/Desktop/Differential_analyses_peaks/data/raw/BAMS/Romain_rat-KI_3_S6.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/data/raw/peaks/macs2_narrow/Romain_rat-KI_3_S6-macs2_peaks.narrowPeak	narrow
+WT_1	1	rat			WT	1	/home/af/Desktop/Differential_analyses_peaks/data/raw/BAMS/Romain_rat-wt_1_S1.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/data/raw/peaks/macs2_narrow/Romain_rat-wt_1_S1-macs2_peaks.narrowPeak	narrow
+WT_2	1	rat			WT	2	/home/af/Desktop/Differential_analyses_peaks/data/raw/BAMS/Romain_rat-wt_2_S3.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/data/raw/peaks/macs2_narrow/Romain_rat-wt_2_S3-macs2_peaks.narrowPeak	narrow
+WT_3	1	rat			WT	3	/home/af/Desktop/Differential_analyses_peaks/data/raw/BAMS/Romain_rat-wt_3_S5.sorted.bam	/home/af/Desktop/Differential_analyses_peaks/data/raw/peaks/macs2_narrow/Romain_rat-wt_3_S5-macs2_peaks.narrowPeak	narrow
