@@ -250,7 +250,7 @@ pp <- ggplot(ora_wp,# you can replace the numbers to the row number of pathway o
              scale_colour_gradient(limits=c(0, 5), low="red") +
              ylab(NULL) +
              ggtitle("") + labs(color = expression(paste("-Log"[10],"(pValue)")))+
- theme(axis.text.y = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none")
+ theme(axis.text.y = element_text(size = 25),axis.text.x = element_text(size = 20),axis.title.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none")
 
 ggsave(file.path(rootfolder,radio$plot,paste0("Wikipathway_tfbs.pdf")), plot = pp,width = 14, height = 8)
 
@@ -275,7 +275,7 @@ pp <- ggplot(panther,# you can replace the numbers to the row number of pathway 
              scale_colour_gradient(limits=c(0, 5), low="red") +
              ylab(NULL) +
              ggtitle("") + labs(color =  expression(paste("-Log"[10],"(pValue)")))+
- theme(axis.text.y = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none") + scale_size(range = c(10, 20))
+ theme(axis.text.y = element_text(size = 25),axis.title.x = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none") + scale_size(range = c(10, 20))
 pp
 ggsave(file.path(rootfolder,radio$plot,paste0("PantherDB_tfbs.pdf")), plot = pp,width = 14, height = 8)
 
@@ -294,7 +294,7 @@ for(i in tt){gg = c(as.numeric(i[1])/as.numeric(i[2]),gg)}
 gomf$Ratio <- rev(gg) # here reverse because it does it reverse, dont know why
 
 gomf <- gomf[with(gomf,order(Ratio, decreasing = TRUE)),]
-
+gomf$Description = gsub(" \\(GO:[0-9]*)","",gomf$Description)
 gomf <- mutate(gomf,Description=factor(Description, levels=Description))
 
 pp <- ggplot(gomf,# you can replace the numbers to the row number of pathway of your interest
@@ -304,7 +304,7 @@ pp <- ggplot(gomf,# you can replace the numbers to the row number of pathway of 
              scale_colour_gradient(limits=c(0, 0.05), low="red") +
              ylab(NULL) +
              ggtitle("") + labs(color =  "pValue")+
- theme(axis.text.y = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none") + scale_size(range = c(10, 20))
+ theme(axis.text.y = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=25), legend.title = element_text(size = 20)) + guides(size = "none") + scale_size(range = c(10, 20))
 pp
 ggsave(file.path(rootfolder,radio$plot,paste0("Go_MF_Diff.pdf")), plot = pp,width = 14, height = 8)
 
@@ -332,7 +332,7 @@ pp <- ggplot(wp2gene,# you can replace the numbers to the row number of pathway 
              scale_colour_gradient(limits=c(0, 0.2), low="red") +
              ylab(NULL) +
              ggtitle("") + labs(color = "pValue")+
- theme(axis.text.y = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none") + 
+ theme(axis.text.y = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=25), legend.title = element_text(size = 20)) + guides(size = "none") + 
 scale_size(range = c(10, 20))
 
 ggsave(file.path(rootfolder,radio$plot,paste0("Wikipathway_Diff.pdf")), plot = pp,width = 14, height = 8)
