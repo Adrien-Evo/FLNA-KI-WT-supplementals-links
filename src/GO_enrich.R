@@ -224,8 +224,8 @@ topgenes$diffexpressed[topgenes$WT_KI_change < -changelimit & -log10(topgenes$WT
 gene = toupper(topgenes$name[union(which(topgenes$diffexpressed == "UP"),which(topgenes$diffexpressed == "DOWN"))])
 
 
-
-
+gene = read.table(file.path(rootfolder,radio$genelist),sep="\t", stringsAsFactor = FALSE, h=FALSE)
+gene <- c(gene$V1)
 wp2gene <- read.gmt(file.path(rootfolder,radio$wikipathway))
 
 wp2gene <- wp2gene %>% tidyr::separate(term, c("name","version","wpid","org"), "%")
@@ -238,7 +238,7 @@ ora_wp <- enricher(tfbs$ENTREZID, TERM2GENE = wpid2gene, TERM2NAME = wpid2name)
 ora_wp <- setReadable(ora_wp, org.Hs.eg.db, keyType = "ENTREZID")
 ora_wp <- ora_wp@result
 ora_wp <- ora_wp[c(1:5),]
-ora_wp <- ora_wp[with(ora_wp,order(Count)),]
+ora_wp <- ora_wp[with(ora_wp,order(pvalue,decreasing  = TRUE)),]
 
 ora_wp <- mutate(ora_wp,Description=factor(Description, levels=Description))
 
@@ -247,14 +247,47 @@ pp <- ggplot(ora_wp,# you can replace the numbers to the row number of pathway o
              aes(x = GeneRatio, y = Description)) + 
              geom_point(aes(size = 50, color = -log10(p.adjust))) +
              theme_bw(base_size = 14) +
-             scale_colour_gradient(limits=c(0, 5), low="red") +
+             scale_colour_gradient(limits=c(1, 6), low="red") +
              ylab(NULL) +
              ggtitle("") + labs(color = expression(paste("-Log"[10],"(pValue)")))+
- theme(axis.text.y = element_text(size = 25),axis.text.x = element_text(size = 20),axis.title.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none")
+ theme(axis.text.y = element_text(size = 25),axis.text.x = element_text(size = 20),axis.title.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none")  + scale_size(range = c(10, 20))
+pp
 
-ggsave(file.path(rootfolder,radio$plot,paste0("Wikipathway_tfbs.pdf")), plot = pp,width = 14, height = 8)
+ggsave(file.path(rootfolder,radio$plot,paste0("Wikipathway_tfbs.pdf")), plot = pp,width = 18, height = 10)
 
 
+
+################seconde version using enrichR
+
+
+
+wp2gene = read.table(file.path(rootfolder,radio$wiki_tf),sep="\t", stringsAsFactor = FALSE, h=TRUE)
+
+names(wp2gene) <-c("Description","GeneRatio", "pvalue", "p.adjust","Old.P.value","OldAdjusted.P.value", "Odds.Ratio","Combined.Score","Genes")
+wp2gene$Count = wp2gene$GeneRatio
+wp2gene <- wp2gene[c(1:5),]
+
+
+tt = strsplit(wp2gene$GeneRatio,"/")
+gg = c()
+for(i in tt){gg = c(as.numeric(i[1])/as.numeric(i[2]),gg)}
+wp2gene$Ratio <- rev(gg) # here reverse because it does it reverse, dont know why
+wp2gene <- wp2gene[with(wp2gene,order(pvalue, decreasing = TRUE)),]
+wp2gene <- mutate(wp2gene,Description=factor(Description, levels=Description))
+
+
+pp <- ggplot(wp2gene,# you can replace the numbers to the row number of pathway of your interest
+             aes(x = GeneRatio, y = Description)) + 
+             geom_point(aes(size = Ratio, color = p.adjust)) +
+             theme_bw(base_size = 14) +
+             scale_colour_gradient(limits=c(1, 6), low="red") +
+             ylab(NULL) +
+             ggtitle("") + labs(color = expression(paste("-Log"[10],"(pValue)")))+
+ theme(axis.text.y = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=25), legend.title = element_text(size = 20)) + guides(size = "none") + 
+scale_size(range = c(10, 20))
+
+############
+############PantherDB
 panther = read.table(file.path(rootfolder,radio$panther),sep="\t", stringsAsFactor = FALSE, h=TRUE)
 
 panther <- panther[c(1:5),]
@@ -268,16 +301,22 @@ tt = strsplit(panther$GeneRatio,"/")
 gg = c()
 for(i in tt){gg = c(as.numeric(i[1])/as.numeric(i[2]),gg)}
 panther$Ratio <- rev(gg) # here reverse because it does it reverse, dont know why
+panther
+panther$Description[2] <- "Inflammation mediated by chemokine\n and cytokine signaling pathway"
+panther <- panther[with(panther,order(pvalue,decreasing  = TRUE)),]
+
+panther <- mutate(panther,Description=factor(Description, levels=Description))
+
 pp <- ggplot(panther,# you can replace the numbers to the row number of pathway of your interest
              aes(x = GeneRatio, y = Description)) + 
              geom_point(aes(size = Ratio, color = -log10(p.adjust))) +
              theme_bw(base_size = 14) +
-             scale_colour_gradient(limits=c(0, 5), low="red") +
+             scale_colour_gradient(limits=c(1, 5), low="red") +
              ylab(NULL) +
              ggtitle("") + labs(color =  expression(paste("-Log"[10],"(pValue)")))+
  theme(axis.text.y = element_text(size = 25),axis.title.x = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none") + scale_size(range = c(10, 20))
 pp
-ggsave(file.path(rootfolder,radio$plot,paste0("PantherDB_tfbs.pdf")), plot = pp,width = 14, height = 8)
+ggsave(file.path(rootfolder,radio$plot,paste0("PantherDB_tfbs.pdf")), plot = pp,width = 18, height = 10)
 
 
 ####GO MF
