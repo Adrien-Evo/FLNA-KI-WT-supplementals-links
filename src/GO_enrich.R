@@ -271,21 +271,25 @@ wp2gene <- wp2gene[c(1:5),]
 tt = strsplit(wp2gene$GeneRatio,"/")
 gg = c()
 for(i in tt){gg = c(as.numeric(i[1])/as.numeric(i[2]),gg)}
+wp2gene$Description = gsub(" WP[0-9]*","", wp2gene$Description)
 wp2gene$Ratio <- rev(gg) # here reverse because it does it reverse, dont know why
-wp2gene <- wp2gene[with(wp2gene,order(pvalue, decreasing = TRUE)),]
+wp2gene <- wp2gene[with(wp2gene,order(p.adjust, decreasing = TRUE)),]
 wp2gene <- mutate(wp2gene,Description=factor(Description, levels=Description))
+
 
 
 pp <- ggplot(wp2gene,# you can replace the numbers to the row number of pathway of your interest
              aes(x = GeneRatio, y = Description)) + 
-             geom_point(aes(size = Ratio, color = p.adjust)) +
+             geom_point(aes(size = Ratio, color = -log10(p.adjust))) +
              theme_bw(base_size = 14) +
-             scale_colour_gradient(limits=c(1, 6), low="red") +
+             scale_colour_gradient(limits=c(1, 10), low="blue", high="red") +
              ylab(NULL) +
              ggtitle("") + labs(color = expression(paste("-Log"[10],"(pValue)")))+
- theme(axis.text.y = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=25), legend.title = element_text(size = 20)) + guides(size = "none") + 
+ theme(axis.text.y = element_text(size = 30),axis.text.x = element_text(size = 20),legend.text=element_text(size=25),axis.title.x = element_text(size = 20), legend.title = element_text(size = 20)) + guides(size = "none") + 
 scale_size(range = c(10, 20))
 
+pp
+ggsave(file.path(rootfolder,radio$plot,paste0("Wikipathway_tfbs.pdf")), plot = pp,width = 18, height = 10)
 ############
 ############PantherDB
 panther = read.table(file.path(rootfolder,radio$panther),sep="\t", stringsAsFactor = FALSE, h=TRUE)
@@ -311,10 +315,10 @@ pp <- ggplot(panther,# you can replace the numbers to the row number of pathway 
              aes(x = GeneRatio, y = Description)) + 
              geom_point(aes(size = Ratio, color = -log10(p.adjust))) +
              theme_bw(base_size = 14) +
-             scale_colour_gradient(limits=c(1, 5), low="red") +
+             scale_colour_gradient(limits=c(1, 5), low="blue", high="red") +
              ylab(NULL) +
              ggtitle("") + labs(color =  expression(paste("-Log"[10],"(pValue)")))+
- theme(axis.text.y = element_text(size = 25),axis.title.x = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none") + scale_size(range = c(10, 20))
+ theme(axis.text.y = element_text(size = 30),axis.title.x = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=20), legend.title = element_text(size = 20)) + guides(size = "none") + scale_size(range = c(10, 20))
 pp
 ggsave(file.path(rootfolder,radio$plot,paste0("PantherDB_tfbs.pdf")), plot = pp,width = 18, height = 10)
 
@@ -330,17 +334,18 @@ gomf <- gomf[c(1:5),]
 tt = strsplit(gomf$GeneRatio,"/")
 gg = c()
 for(i in tt){gg = c(as.numeric(i[1])/as.numeric(i[2]),gg)}
+gomf$Description = gsub(" \\(GO:[0-9]*)","",gomf$Description)
 gomf$Ratio <- rev(gg) # here reverse because it does it reverse, dont know why
 
-gomf <- gomf[with(gomf,order(Ratio, decreasing = TRUE)),]
-gomf$Description = gsub(" \\(GO:[0-9]*)","",gomf$Description)
+gomf <- gomf[with(gomf,order(pvalue, decreasing = TRUE)),]
+
 gomf <- mutate(gomf,Description=factor(Description, levels=Description))
 
 pp <- ggplot(gomf,# you can replace the numbers to the row number of pathway of your interest
              aes(x = GeneRatio, y = Description)) + 
              geom_point(aes(size = Ratio, color = pvalue)) +
              theme_bw(base_size = 14) +
-             scale_colour_gradient(limits=c(0, 0.05), low="red") +
+             scale_colour_gradient(limits=c(0, 0.1), low="red") +
              ylab(NULL) +
              ggtitle("") + labs(color =  "pValue")+
  theme(axis.text.y = element_text(size = 20),axis.text.x = element_text(size = 20),legend.text=element_text(size=25), legend.title = element_text(size = 20)) + guides(size = "none") + scale_size(range = c(10, 20))
@@ -362,8 +367,9 @@ for(i in tt){gg = c(as.numeric(i[1])/as.numeric(i[2]),gg)}
 wp2gene$Ratio <- rev(gg) # here reverse because it does it reverse, dont know why
 wp2gene <- wp2gene[with(wp2gene,order(pvalue, decreasing = TRUE)),]
 wp2gene <- mutate(wp2gene,Description=factor(Description, levels=Description))
+wp2gene$Description = gsub(" WP[0-9]*","", wp2gene$Description)
 
-
+wp2gene$Description[4] <- "Hypothesized Pathways in\n Pathogenesis of Cardiovascular Disease"
 pp <- ggplot(wp2gene,# you can replace the numbers to the row number of pathway of your interest
              aes(x = GeneRatio, y = Description)) + 
              geom_point(aes(size = Ratio, color = pvalue)) +

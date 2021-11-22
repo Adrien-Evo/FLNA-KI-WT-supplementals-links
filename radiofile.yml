@@ -26,9 +26,9 @@ ratbiomart : "data/external/rat_biomart.rds"
 humanbiomart: "data/external/human_biomart.rds"
 wikipathway: "data/external/wikipathways-20211010-gmt-Homo_sapiens.gmt"
 
-panther: "data/external/Panther_2016_table_TFBS_TOBIAS.txt"
+panther: "data/external/Panther_2016_table_TFBS.txt"
 wiki_diff: "data/external/WikiPathway_2021_Human_table.txt"
 GO_MF_diff: "data/external/GO_Molecular_Function_2021_table.txt"
-wiki_tf: "data/external/WikiPathway_2021_Human_table_TF.txt"
+wiki_tf: "data/external/WikiPathway_2021_Human_table_TFBS.txt"
 
 genelist : "data/processed/pantherDB_genelist.txt"
